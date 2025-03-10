@@ -1,8 +1,8 @@
 # BMI 🏋️‍♀️
 # Codédex
 
-weight = 92.3
-height = 1.86
+weight = 52.1631
+height = 1.5493999999999999
 
 bmi = weight / (height**2)
 
