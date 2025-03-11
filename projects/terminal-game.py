@@ -10,7 +10,7 @@ def type_text(text, delay=0.02, pause=0.5):
     """Makes text appear dramatically like in classic RPGs with better pacing"""
     text = str(text).replace('\n', ' ').strip()
     text = ' '.join(text.split())
-    
+
     for char in text:
         print(char, end='', flush=True)
         time.sleep(delay)
@@ -40,28 +40,28 @@ def print_stats():
     print(f"Anxiety Level: {'😰' * (player['anxiety'] // 10)}")
     print(f"Reputation with Dr. Rampy: {'⭐' * (player['reputation'] // 10)}")
     print(f"Correct Clinical Decisions: {player['correct_choices']}")
-    
+
     # Show diagnosis hints if we have any
     if player['diagnosis_hints']:
         print("\nDiagnosis Clues: 🔍")
         for hint in player['diagnosis_hints']:
             print(f"  • {hint}")
-    
+
     print_divider()
 
 def first_decision():
     """First interaction with Dr. Rampy about the new patient"""
     while True:
         print_stats()
-        
+
         type_text("What would you like to do?")
         print("\n1. Ask about the vital signs")
         print("2. Review the chart first")
         print("3. Go see the patient immediately")
         print("4. Pretend you didn't hear and keep typing notes*")
-        
+
         choice = input("\nYour choice (1-4): ")
-        
+
         if choice == "1":
             type_text("Dr. Rampy raises an eyebrow, seemingly impressed by your initiative.")
             type_text("'BP 178/104, HR 122, Temp 36.3°C. Make of that what you will.'")
@@ -92,18 +92,18 @@ def second_decision():
     """Second decision point after learning about vitals"""
     clear_screen()
     print_stats()
-    
+
     type_text("Dr. Rampy taps their pen thoughtfully. 'So, given these vital signs...'")
-    
+
     while True:
         print("\nWhat's your next move?")
         print("\n1. 'Could we get more history about the headaches?'")
         print("2. *Frantically google 'high BP + tachycardia' on your phone*")
         print("3. 'RAPID RESPONSE!' *Reaches for the emergency button*")
         print("4. 'Well, when we consider the sympathetic nervous system...'")
-        
+
         choice = input("\nYour choice (1-4): ")
-        
+
         if choice == "1":
             type_text("'Ah, finally asking the right questions!' Dr. Rampy's eyes light up.")
             type_text("'Patient reports episodic symptoms including headache, palpitations, and diaphoresis...'")
@@ -140,19 +140,19 @@ def third_decision():
     """Third decision point - narrowing down the diagnosis"""
     clear_screen()
     print_stats()
-    
+
     type_text("Dr. Rampy hands you the patient's chart.")
     type_text("'So, Dr. " + player["name"] + ", what's your diagnostic approach?'")
-    
+
     while True:
         print("\nWhat tests would you order?")
         print("\n1. 'Let's get plasma metanephrines and catecholamines'")
         print("2. 'I'd like to order a Head CT and EKG'")
         print("3. 'Let's start with a basic metabolic panel and CBC'")
         print("4. 'Maybe we should check aldosterone and renin levels?'")
-        
+
         choice = input("\nYour choice (1-4): ")
-        
+
         if choice == "1":
             type_text("Dr. Rampy's eyes widen with visible approval.")
             type_text("'Excellent choice. Going straight for the gold standard.'")
@@ -184,23 +184,23 @@ def final_diagnosis():
     """Final diagnostic moment"""
     clear_screen()
     print_stats()
-    
+
     type_text("The next day, Dr. Rampy approaches with the test results.")
     type_text("'Well, the labs are back. Care to make your diagnosis?'")
-    
+
     if "Ordered plasma metanephrines" in player["diagnosis_hints"]:
         type_text("You see the results: Metanephrine (free), plasma: 5.2 nmol/L (ref: <0.50)")
         type_text("Normetanephrine (free), plasma: 9.8 nmol/L (ref: <0.90)")
-    
+
     while True:
         print("\nWhat's your diagnosis?")
         print("\n1. 'This patient has a pheochromocytoma'")
         print("2. 'I believe this is essential hypertension with anxiety'")
         print("3. 'The patient has Conn's syndrome (primary hyperaldosteronism)'")
         print("4. 'I need more tests before making a diagnosis'")
-        
+
         choice = input("\nYour choice (1-4): ")
-        
+
         if choice == "1":
             type_text("Dr. Rampy breaks into a rare, genuine smile!")
             type_text("'Excellent diagnosis, doctor! The CT scan confirms a 3.2 cm right adrenal mass.'")
@@ -230,15 +230,15 @@ def end_game(win=False):
     """Game ending based on performance"""
     clear_screen()
     print_divider()
-    
+
     # Calculate final score
     score = player["correct_choices"] * 10 + player["reputation"] - player["anxiety"]
-    
+
     if win:
         type_text("CONGRATULATIONS! You correctly diagnosed the patient with pheochromocytoma!")
         type_text("Dr. Rampy nods approvingly. 'Well done. I'll schedule the patient for an adrenalectomy.'")
         type_text("'Alpha blockade first, of course, then surgery. Classic management.'")
-        
+
         if score > 100:
             type_text("'You know, you might actually survive residency after all.'")
             type_text("You've impressed Dr. Rampy - a rare achievement indeed!")
@@ -249,44 +249,37 @@ def end_game(win=False):
     else:
         type_text("The patient was transferred to another service after complications.")
         type_text("Dr. Rampy looks disappointed. 'We'll discuss this further at your evaluation.'")
-    
+
     print_divider()
     print(f"Final Score: {score}")
     print(f"Correct Decisions: {player['correct_choices']}")
     print(f"Reputation with Dr. Rampy: {player['reputation']}")
     print(f"Anxiety Level: {player['anxiety']}")
     print_divider()
-    
+
     type_text("Thank you for playing CLINICAL ROTATIONS!")
     type_text("Remember, in both medicine and coding: practice makes perfect!")
 
 def start_game():
     """Game initialization and introduction"""
     clear_screen()
-    
+
     # Display game title ASCII art
     print("""
- ██████╗██╗     ██╗███╗   ██╗██╗ ██████╗ █████╗ ██╗     
-██╔════╝██║     ██║████╗  ██║██║██╔════╝██╔══██╗██║     
-██║     ██║     ██║██╔██╗ ██║██║██║     ███████║██║     
-██║     ██║     ██║██║╚██╗██║██║██║     ██╔══██║██║     
-╚██████╗███████╗██║██║ ╚████║██║╚██████╗██║  ██║███████╗
- ╚═════╝╚══════╝╚═╝╚═╝  ╚═══╝╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝
-                                                         
-██████╗  ██████╗ ████████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗
-██╔══██╗██╔═══██╗╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
-██████╔╝██║   ██║   ██║   ███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗
-██╔══██╗██║   ██║   ██║   ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║╚════██║
-██║  ██║╚██████╔╝   ██║   ██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║
-╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+    ██████╗ ██████╗ ██╗  ██╗ ██████╗  █████╗ ███╗   ███╗███████╗
+    ██╔══██╗██║  ██║╚██╗██╔╝██╔════╝ ██╔══██╗████╗ ████║██╔════╝
+    ██║  ██║██║  ██║ ╚███╔╝ ██║  ███╗███████║██╔████╔██║█████╗  
+    ██║  ██║██║  ██║ ██╔██╗ ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  
+    ██████╔╝██████╔╝██╔╝ ██╗╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗
+    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
     """)
-    
+
     print_divider()
-    type_text("🏥 Welcome to CLINICAL ROTATIONS: A Terminal Adventure 🏥")
+    type_text("🏥 Welcome to ddxGAME: A Terminal Adventure 🏥")
     type_text("Where every patient is a puzzle, and every attending is a final boss...")
-        
+
     player["name"] = input("\nEnter your name, brave medical student: ")
-    
+
     type_text(f"\n[Dell Medical School - Internal Medicine Ward]")
     type_text("It's 6:45 AM. Pre-rounds are about to start.")
     type_text(f"You, Dr. {player['name']}, are nervously reviewing your patient's chart when...")
@@ -296,7 +289,7 @@ def start_game():
     type_text("'Ah, perfect timing. New admission in room 2.'")
     type_text("'37-year-old woman with... interesting vital signs.'")
     scene_transition()
-    
+
     first_decision()
 
 # Start our adventure! 🎮✨
